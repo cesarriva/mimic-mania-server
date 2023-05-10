@@ -10,15 +10,18 @@ export interface IAuthService {
 }
 
 export default class AuthService implements IAuthService {
+  private prismaClient: PrismaClient;
+
+  constructor({ prismaClient }: { prismaClient: PrismaClient }) {
+    this.prismaClient = prismaClient;
+  }
+
   registerUser = async (
     email: string,
     name: string,
     password: string
   ): Promise<User | null> => {
-    console.log("registerUser", email, name, password);
-
-    const prisma = new PrismaClient();
-    const user = await prisma.user.findFirst();
+    const user = await this.prismaClient.user.findFirst();
     console.log(user);
 
     return user;

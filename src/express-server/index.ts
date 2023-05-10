@@ -17,13 +17,6 @@ app.use(cookieParser());
 app.use(xss());
 app.use(express.static("public"));
 
-app.get("/pega", async (req: Request, res: Response) => {
-  const prisma = new PrismaClient();
-  const users = await prisma.user.findMany();
-  console.log('que porra', users);
-
-  res.send({users});
-});
 
 app.use(`${apiRoot}/auth`, authRouter);
 
