@@ -4,12 +4,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import app from "./express-server";
+import app from "./server";
 import {
   ClientToServerEvents,
   ServerToClientEvents,
   registerSocketHandlers,
-} from "./socket-server";
+} from "./server/socket";
 
 const port = process.env.PORT || 4000;
 
@@ -28,11 +28,23 @@ socketIoServer.on("connection", (socket) => {
 });
 
 process.on("unhandledRejection", (err: Error) => {
-  console.log(err.name, err.message);
+  console.log(err);
   console.log("UNHANDLED REJECTION! 💥 Shutting down...");
   if (httpServer) {
     httpServer.close(() => process.exit(1));
   } else {
     process.exit(1);
+  }
+});
+
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received. Shutting down gracefully");
+  if (httpServer) {
+    httpServer.close(() => {
+      console.log("Closed out remaining connections");
+      process.exit(0);
+    });
+  } else {
+    process.exit(0);
   }
 });
