@@ -17,7 +17,7 @@ export default class AuthRepository implements IAuthRepository {
   createUser = async (user: UserCreatePayload): Promise<UserWithNoPassword> => {
     const createdUser = await this.prismaClient.user.create({
       data: { ...user },
-      select: { id: true, email: true, name: true },
+      select: { id: true, email: true, name: true, proUser: true },
     });
 
     return createdUser;

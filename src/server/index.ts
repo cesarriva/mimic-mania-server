@@ -7,6 +7,7 @@ import xss from "xss-clean";
 import { authRouter } from "./auth";
 import { apiNotFoundHandler } from "./error-handlers/api-not-found.handler";
 import { applicationErrorsHandler } from "./error-handlers/application-errors.handler";
+import { gameSettingsRouter } from "./game-settings";
 
 const apiRoot = process.env.API_ROOT || "/api";
 
@@ -21,6 +22,7 @@ app.use(xss());
 app.use(express.static("public"));
 
 app.use(`${apiRoot}/auth`, authRouter);
+app.use(`${apiRoot}/game-settings`, gameSettingsRouter);
 
 app.all("*", apiNotFoundHandler);
 app.use(applicationErrorsHandler);

@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response, Handler } from "express";
+import express, { Request, Response } from "express";
 import container from "../../dependency-injection/container";
 import { LoginPayload, UserCreatePayload } from "./auth.models";
 import { catchAsync } from "../error-handlers/catch-async";

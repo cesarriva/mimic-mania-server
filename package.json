@@ -6,14 +6,18 @@
   "scripts": {
     "build": "rimraf dist && tsc",
     "preserve": "npm run build",
-    "serve": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
+    "serve": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/src/index.js\"",
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "migrate-prisma": "npx prisma migrate dev --name init"
+    "migrate-prisma": "npx prisma migrate dev --name init",
+    "seed": "npx prisma db seed"
   },
   "keywords": [],
   "author": "Cesar Riva",
   "license": "ISC",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^4.14.0",
     "awilix": "^8.0.1",
@@ -41,6 +45,7 @@
     "@types/node": "^20.1.0",
     "concurrently": "^8.0.1",
     "nodemon": "^2.0.22",
-    "prisma": "^4.13.0"
+    "prisma": "^4.13.0",
+    "ts-node": "^10.9.1"
   }
 }

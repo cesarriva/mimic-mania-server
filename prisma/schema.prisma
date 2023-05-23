@@ -12,4 +12,38 @@ model User {
   email   String   @unique
   name    String
   password String
+  proUser Boolean  @default(false)
+}
+
+model WordCategory {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  description String
+  isProCategory Boolean @default(false)
+  words Word[]
+}
+
+model Word {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  category      WordCategory    @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  translations  Translation[]
+}
+
+model Translation {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  description   String
+  word          Word            @relation(fields: [wordId], references: [id])
+  wordId        Int
+  language      Language        @relation(fields: [languageId], references: [id])
+  languageId    Int
+} 
+
+model Language {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  description   String
+  translations  Translation[]
 }
