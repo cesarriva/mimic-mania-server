@@ -1,4 +1,9 @@
-var socket = io();
+var socket = io({
+  auth: {
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg1Nzc1NjMwfQ.73cFu-cUwGFsVvF7cLETrS8UimRGI-B-LgJDemJL4Zo",
+  },
+});
 
 socket.emit("requestNewGame");
 

@@ -9,6 +9,7 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
   registerSocketHandlers,
+  setupClientSocketAuthentication,
 } from "./server/socket";
 
 const port = process.env.PORT || 4000;
@@ -23,9 +24,13 @@ httpServer.listen(port, () => {
   console.log(`Server listening on port ${port} ⚡️`);
 });
 
+
+
 socketIoServer.on("connection", (socket) => {
   registerSocketHandlers(socketIoServer, socket);
 });
+
+setupClientSocketAuthentication(socketIoServer);
 
 process.on("unhandledRejection", (err: Error) => {
   console.log(err);
