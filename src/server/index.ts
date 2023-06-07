@@ -7,7 +7,7 @@ import xss from "xss-clean";
 import { authRouter } from "./auth";
 import { apiNotFoundHandler } from "./error-handlers/api-not-found.handler";
 import { applicationErrorsHandler } from "./error-handlers/application-errors.handler";
-import { gameSettingsRouter } from "./game-settings";
+import { gameSettingsRouter } from "./game-setup";
 
 const apiRoot = process.env.API_ROOT || "/api";
 

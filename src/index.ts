@@ -6,11 +6,13 @@ dotenv.config();
 
 import app from "./server";
 import {
-  ClientToServerEvents,
-  ServerToClientEvents,
   registerSocketHandlers,
   setupClientSocketAuthentication,
 } from "./server/socket";
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from "./server/shared/event-types";
 
 const port = process.env.PORT || 4000;
 
@@ -18,16 +20,19 @@ export const httpServer = createServer(app);
 export const socketIoServer = new SocketServer<
   ClientToServerEvents,
   ServerToClientEvents
->(httpServer);
+>(httpServer, { cors: { origin: "http://localhost:19000" } });
 
 httpServer.listen(port, () => {
   console.log(`Server listening on port ${port} ⚡️`);
 });
 
-
-
 socketIoServer.on("connection", (socket) => {
+  console.info(`New client [${socket.id}] connected`);
   registerSocketHandlers(socketIoServer, socket);
+
+  socket.on("disconnect", () => {
+    console.info(`Client [${socket.id}] disconnected`);
+  });
 });
 
 setupClientSocketAuthentication(socketIoServer);

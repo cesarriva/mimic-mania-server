@@ -10,7 +10,8 @@
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "migrate-prisma": "npx prisma migrate dev --name init",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "db-push": "npx prisma db push"
   },
   "keywords": [],
   "author": "Cesar Riva",

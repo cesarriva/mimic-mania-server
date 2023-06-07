@@ -1,16 +1,17 @@
-import { Socket, Server as SocketServer } from "socket.io";
+import { Socket, Server } from "socket.io";
 import {
   ClientToServerEvents,
   ServerToClientEvents,
   SocketData,
-} from "./event-types";
+} from "../shared/event-types";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import container from "../../dependency-injection/container";
+import { gameSetupHandlers } from "./game-handlers/game-setup";
 
 const { authenticateSocketClient } = container.cradle.authMiddleware;
 
 export const registerSocketHandlers = (
-  ioServer: SocketServer<
+  ioServer: Server<
     ClientToServerEvents,
     ServerToClientEvents,
     DefaultEventsMap,
@@ -23,20 +24,10 @@ export const registerSocketHandlers = (
     SocketData
   >
 ) => {
-  console.log(`A client with Id [${socket.id}] connected`);
-
-  socket.on("requestNewGame", () => {
-    console.log(
-      `New game room requested for user ${socket.data.authenticatedUser?.name}`
-    );
-
-    const gameCode = "1234";
-    ioServer.emit("newGameCreated", gameCode);
-  });
+  gameSetupHandlers(ioServer, socket);
 };
 
-export const setupClientSocketAuthentication = (ioServer: SocketServer) => {
+export const setupClientSocketAuthentication = (ioServer: Server) => {
   ioServer.use(authenticateSocketClient);
 };
 
-export * from "./event-types";

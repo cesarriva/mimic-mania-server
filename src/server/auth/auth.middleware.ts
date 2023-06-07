@@ -4,12 +4,8 @@ import { ISecurityUtils } from "../../utils/security.utils";
 import AppError from "../error-handlers/app-error";
 import { StatusCodes } from "http-status-codes";
 import { IAuthRepository } from "./auth.repository";
-import {
-  ClientToServerEvents,
-  ServerToClientEvents,
-  SocketData,
-} from "../socket";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { SocketData } from "../shared/event-types";
 
 export interface IAuthMiddleware {
   authenticate: (

@@ -14,21 +14,21 @@ import {
   IAuthMiddleware,
   makeAuthenticationMiddleware,
 } from "../server/auth/auth.middleware";
-import GameSettingsService, {
-  IGameSettingsService,
-} from "../server/game-settings/game-settings.service";
-import GameSettingsRepository, {
-  IGameSettingsRepository,
-} from "../server/game-settings/game-settings.repository";
+import GameSetupService, {
+  IGameSetupService,
+} from "../server/game-setup/game-setup.service";
+import GameSetupRepository, {
+  IGameSetupRepository,
+} from "../server/game-setup/game-setup.repository";
 
 interface IContainer {
   //Services
   authService: IAuthService;
-  gameSettingsService: IGameSettingsService;
+  gameSetupService: IGameSetupService;
 
   //Repositories
   authRepository: IAuthRepository;
-  gameSettingsRepository: IGameSettingsRepository;
+  gameSetupRepository: IGameSetupRepository;
   prismaClient: PrismaClient;
 
   //Utils
@@ -45,9 +45,9 @@ interface IContainer {
 const container = createContainer<IContainer>();
 container.register({
   authService: asClass(AuthService).scoped(),
-  gameSettingsService: asClass(GameSettingsService).scoped(),
+  gameSetupService: asClass(GameSetupService).scoped(),
   authRepository: asClass(AuthRepository).scoped(),
-  gameSettingsRepository: asClass(GameSettingsRepository).scoped(),
+  gameSetupRepository: asClass(GameSetupRepository).scoped(),
   prismaClient: asValue(prisma),
   securityUtils: asClass(SecurityUtils).scoped(),
   authMiddleware: asFunction(makeAuthenticationMiddleware).scoped(),

@@ -5,10 +5,10 @@ import { catchAsync } from "../error-handlers/catch-async";
 const router = express.Router();
 
 const { authenticate } = container.cradle.authMiddleware;
-const { gameSettingsService } = container.cradle;
+const { gameSetupService } = container.cradle;
 
 const getWordCategoriesRequest = async (_req: Request, res: Response) => {
-  const categories = await gameSettingsService.getWordCategories();
+  const categories = await gameSetupService.getWordCategories();
 
   res.send(categories);
 };
