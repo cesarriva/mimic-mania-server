@@ -1,7 +1,7 @@
 import { Socket, Server as SocketServer } from "socket.io";
 import {
   ClientToServerEvents,
-  CreateGamePayload,
+  CreateGameRequest,
   ServerToClientEvents,
   SocketData,
 } from "../../shared/event-types";
@@ -24,15 +24,18 @@ export const gameSetupHandlers = (
     SocketData
   >
 ) => {
-  socket.on("createGame", async (payload: CreateGamePayload) => {
-    const gameCreated = await createGame(
-      payload,
-      socket.data.authenticatedUser!.id
-    );
+  socket.on("createGame", async (payload: CreateGameRequest) => {
+    if (!socket.data.authenticatedUser) {
+      console.log("User not authenticated");
+      return;
+    }
 
-    console.log(
-      `New game room requested for user ${socket.data.authenticatedUser?.name}`
-    );
+    const { id } = socket.data.authenticatedUser;
+
+    const gameCreated = await createGame({
+      ...payload,
+      userId: id,
+    });
 
     ioServer.emit("gameCreated", gameCreated);
   });

@@ -1,12 +1,15 @@
 import { Game, PrismaClient, WordCategory } from "@prisma/client";
 
+interface CreateGameArgs {
+  gameName: string;
+  gameCode: string;
+  userId: number;
+  categoriesIds: number[];
+}
+
 export interface IGameSetupRepository {
   getWordCategories: () => Promise<WordCategory[]>;
-  createGame: (
-    gameName: string,
-    userId: number,
-    categoriesIds: number[]
-  ) => Promise<void>;
+  createGame: (args: CreateGameArgs) => Promise<Game>;
 }
 
 export default class GameSetupRepository implements IGameSetupRepository {
@@ -22,14 +25,13 @@ export default class GameSetupRepository implements IGameSetupRepository {
     return categories;
   };
 
-  createGame = async (
-    gameName: string,
-    userId: number,
-    categoriesIds: number[]
-  ): Promise<void> => {
+  createGame = async (args: CreateGameArgs): Promise<Game> => {
+    const { gameName, gameCode, userId, categoriesIds } = args;
+
     const game = await this.prismaClient.game.create({
       data: {
         name: gameName,
+        code: gameCode,
         wordCategories: {
           connect: categoriesIds.map((id) => ({ id })),
         },
@@ -41,5 +43,7 @@ export default class GameSetupRepository implements IGameSetupRepository {
         },
       },
     });
+
+    return game;
   };
 }

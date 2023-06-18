@@ -53,8 +53,16 @@ model Language {
 model Game {
   id             Int            @id @default(autoincrement())
   name           String         @unique
+  code           String         @unique
+  status         GameStatus     @default(CREATED)
   wordCategories WordCategory[] @relation("CategoriesOnGames")
   users          UsersOnGames[]
+}
+
+enum GameStatus {
+  CREATED
+  IN_PROGRESS
+  FINISHED
 }
 
 model UsersOnGames {

@@ -1,11 +1,11 @@
 import { User } from "@prisma/client";
 
 export interface ServerToClientEvents {
-  gameCreated: (gameCode: string) => void;
+  gameCreated: (gameData: CreateGameResponse) => void;
 }
 
 export interface ClientToServerEvents {
-  createGame: (payload: CreateGamePayload) => void;
+  createGame: (payload: CreateGameRequest) => void;
 }
 
 export interface SocketData {
@@ -15,7 +15,12 @@ export interface SocketData {
 /**
  * Payload for a game creation
  */
-export interface CreateGamePayload {
+export interface CreateGameRequest {
   gameName: string;
-  wordCategoryIds: string[];
+  categoriesIds: number[];
+}
+
+export interface CreateGameResponse {
+  gameName: string;
+  gameCode: string;
 }
