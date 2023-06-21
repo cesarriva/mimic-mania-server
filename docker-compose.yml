@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  mimic_mania_server:
+    build:
+      context: ./
+      target: development
+    command: npm run start:development
+    ports:
+      - "4000:4000"
