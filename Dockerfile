@@ -1,7 +1,9 @@
 FROM node:18-alpine as base
 
+ARG PORT=4000
+
 # Expose the application port
-EXPOSE 4000
+EXPOSE $PORT
 
 # Define the location of the project files in the image
 WORKDIR /app
@@ -17,7 +19,7 @@ RUN npm install
 RUN npm run prestart
 
 FROM base as development
-CMD ["npm", "run start:development"]
+CMD ["npm", "run", "start:development"]
 
 FROM base as production
-CMD ["npm", "run start:production"]
+CMD ["npm", "run", "start:production"]
