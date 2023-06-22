@@ -42,7 +42,7 @@ Docker and Docker Compose:
 ```console
 docker-compose up
 ```
-If you want to rebuild the server docker image run:
+If you want to rebuild the server Docker image run:
 ```console
 docker-compose build --no-cache
 ```
@@ -50,6 +50,11 @@ or:
 ```console
 docker-compose up --build
 ```
+There is a npm script to build and run Docker Compose that could be used as well:
+```console
+npm run start:docker
+```
+
 By default, the server runs at http://localhost:4000/ and the 
 database client runs at http://localhost:5555.
 
