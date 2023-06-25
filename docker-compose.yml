@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   mimic_mania_server:
-    image: mimic-mania-app
-    container_name: mimic_mania_app
+    image: mimic-mania-server
+    container_name: mimic_mania_server
     env_file: .env
     command: > 
         sh -c "npm run db-push

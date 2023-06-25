@@ -58,6 +58,8 @@ npm run start:docker
 By default, the server runs at http://localhost:4000/ and the 
 database client runs at http://localhost:5555.
 
+Specify `host.docker.internal` as the host in order to access the DB instance. 
+
 ## Features
 * **Express**: A fast and minimal web application framework for Node.js.
 * **Socket.io**: Enables real-time bidirectional event-based communication between the server and clients.
