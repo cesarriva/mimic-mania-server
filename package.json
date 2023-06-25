@@ -8,13 +8,15 @@
     "preserve": "npm run build",
     "serve": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/src/index.js\"",
     "prestart": "npm run build",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "start:development": "cross-env NODE_ENV=development node dist/src/index.js",
+    "start:production": "cross-env NODE_ENV=production node dist/src/index.js",
+    "start:docker": "docker-compose build --no-cache && docker-compose up",
     "migrate-prisma": "npx prisma migrate dev --name init",
     "seed": "npx prisma db seed",
     "db-push": "npx prisma db push"
   },
   "keywords": [],
-  "author": "Cesar Riva",
+  "author": "Cesar Riva & Caio Riva",
   "license": "ISC",
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

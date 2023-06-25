@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  mimic_mania_server:
+    image: mimic-mania-server
+    container_name: mimic_mania_server
+    env_file: .env
+    command: > 
+        sh -c "npm run db-push
+        && npm run start:development"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PORT: "${PORT:-4000}"
+      target: development
+    ports:
+      - "${PORT:-4000}:${PORT:-4000}"
+    depends_on:
+      - mimic_mania_db
+    restart: always
+
+  mimic_mania_db:
+    image: "postgres:15-alpine"
+    container_name: mimic_mania_db
+    env_file: .env
+    environment:
+      POSTGRES_USER: "${DATABASE_USER:-postgres}"
+      POSTGRES_PASSWORD: "${DATABASE_PASS:-postgres}"
+      POSTGRES_DB: "${DATABASE_NAME:-mimic-mania}"
+    ports:
+      - "${DATABASE_PORT:-5432}:${DATABASE_PORT:-5432}"
+    volumes:
+      - mimic_mania_db_data:/var/lib/data/postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  db_client:
+    image: "dpage/pgadmin4"
+    container_name: db_client
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${DATABASE_CLIENT_EMAIL:-admin@email.com}"
+      PGADMIN_DEFAULT_PASSWORD: "${DATABASE_CLIENT_PASS:-admin}"
+    volumes:
+      - db_client_data:/var/lib/data/pgadmin4
+    depends_on:
+      - mimic_mania_db
+    restart: unless-stopped
+
+volumes:
+  mimic_mania_db_data:
+  db_client_data:
